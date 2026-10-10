@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opticrowt</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{font-family:'Cairo',sans-serif}
+.hero-bg{background-image:linear-gradient(rgba(15,23,42,.75),rgba(15,23,42,.85)),url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80');background-size:cover;background-position:center;background-attachment:fixed}
+.glass{background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15)}
+.gd{background:rgba(15,23,42,.95);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1)}
+.gt{background:linear-gradient(135deg,#fbbf24,#f59e0b,#d97706);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.bp{background:linear-gradient(135deg,#f59e0b,#d97706);transition:all .3s}.bp:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(245,158,11,.4)}
+.bs{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);transition:all .3s}.bs:hover{background:rgba(255,255,255,.2)}
+.sc{transition:all .4s}.sc:hover{transform:translateY(-8px)}
+.su{animation:su .5s ease forwards}
+@keyframes su{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.toast{transform:translateX(150%);transition:transform .4s cubic-bezier(.68,-.55,.265,1.55)}.toast.show{transform:translateX(0)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#f59e0b;box-shadow:0 0 0 2px rgba(245,158,11,.2)}
+.il{margin-left:.5rem;margin-right:0}
+[dir="ltr"] .il{margin-right:.5rem;margin-left:0}
+.mi{width:64px;text-align:center;background:rgba(15,23,42,.8);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:6px 2px;color:#fff;font-size:12px}
+.mi:focus{border-color:#f59e0b;box-shadow:0 0 0 2px rgba(245,158,11,.2)}
+.mi.ti{border-color:rgba(59,130,246,.3)}.mi.ti:focus{border-color:#3b82f6}
+.mi.yi{border-color:rgba(16,185,129,.3)}.mi.yi:focus{border-color:#10b981}
+.ws{-webkit-appearance:none;appearance:none;height:7px;border-radius:4px;width:100%}
+.ws::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.ls{border:4px solid rgba(255,255,255,.1);border-top:4px solid #f59e0b;border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lang-dd{position:relative;display:inline-block}
+.lang-dd-content{display:none;position:absolute;background:rgba(15,23,42,.95);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15);border-radius:8px;min-width:120px;z-index:99;overflow:hidden}
+.lang-dd:hover .lang-dd-content{display:block}
+.lang-btn{display:block;width:100%;padding:8px 12px;text-align:left;color:white;font-size:12px;border:none;background:none;cursor:pointer}
+[dir="rtl"] .lang-btn{text-align:right}
+.lang-btn:hover{background:rgba(245,158,11,.2)}
+.atb.active{background:rgba(16,185,129,.2)!important;color:#34d399!important;border-color:rgba(16,185,129,.2)!important}
+.star{cursor:pointer;color:rgba(255,255,255,.2);font-size:18px}
+.star.on{color:#fbbf24}
+.demo-badge{position:absolute;top:8px;right:8px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);color:#fbbf24;font-size:9px;padding:2px 8px;border-radius:999px}
+[dir="ltr"] .demo-badge{right:auto;left:8px}
+</style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen overflow-x-hidden">
+
+<nav class="fixed top-0 w-full z-50 gd border-b border-white/10">
+<div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+<div class="flex items-center gap-2 cursor-pointer" onclick="sec('hero')">
+<div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center p-1">
+  <img src="https://z-cdn-media.chatglm.cn/files/a69929e2-669e-44b4-b77f-b4df966eaae6.png?auth_key=1890111705-7e23c96fd3ec474d8dbcdd40fade2a8c-0-9238a8ae08a3308559bda3c69b14f822" class="w-full h-full object-contain">
+</div>
+<span class="text-lg font-bold gt" data-t="brand">Opticrowt</span>
+</div>
+<div class="flex items-center gap-2">
+  <div class="lang-dd">
+    <button class="bs px-2.5 py-1.5 rounded-full text-xs flex items-center gap-1">
+      <i class="fas fa-globe text-amber-400"></i> <span id="currentLangFlag">🇩🇿</span>
+    </button>
+    <div class="lang-dd-content" dir="ltr" style="left:0;">
+      <button class="lang-btn" onclick="setLang('ar')">🇩🇿 العربية</button>
+      <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+      <button class="lang-btn" onclick="setLang('fr')">🇫🇷 Français</button>
+    </div>
+  </div>
+  <button onclick="oM('prM')" class="bs px-2.5 py-1.5 rounded-full text-xs"><i class="fas fa-tags text-amber-400"></i></button>
+  <button onclick="oCom()" class="bs px-2.5 py-1.5 rounded-full text-xs"><i class="fas fa-comments text-blue-400"></i></button>
+  <button onclick="oM('alM')" class="bs px-2.5 py-1.5 rounded-full text-xs"><i class="fas fa-shield-alt text-emerald-400"></i></button>
+  <button id="au" onclick="oM('auM')" class="bp px-4 py-1.5 rounded-full font-bold text-slate-900 text-xs"><i class="fas fa-user-plus il"></i><span data-t="register">تسجيل</span></button>
+  <button id="ub" class="hidden items-center gap-1 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs"><i class="fas fa-check-circle"></i><span id="ue"></span></button>
+</div>
+</div>
+</nav>
+
+<section id="heroS" class="hero-bg min-h-screen flex items-center justify-center pt-16 relative">
+<div class="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-transparent to-slate-900"></div>
+<div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+<h1 class="text-3xl md:text-5xl font-extrabold mb-5 su"><span data-t="hero_welcome">مرحباً بكم في </span> <br> <br><span class="gt" data-t="hero_title">تحسين الموارد وتعظيم الأداء</span></h1>
+<p class="text-white/60 max-w-xl mx-auto mb-8 su" style="animation-delay:.1s" data-t="hero_desc">نساعدك في إيجاد التوزيع الأمثل لضمان أعلى كفاءة وأفضل أداء للعمال والمهام.</p>
+<div class="flex gap-3 justify-center su" style="animation-delay:.2s">
+<button onclick="oM('auM')" class="bp px-6 py-3 rounded-full font-bold text-slate-900" data-t="register">تسجيل</button>
+<button onclick="svcClk()" class="bs px-6 py-3 rounded-full font-bold" data-t="services">الخدمات</button>
+</div>
+</div>
+</section>
+
+<section id="svcS" class="hidden min-h-screen flex items-center justify-center py-20 px-4 relative">
+<div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+<div class="relative z-10 max-w-5xl mx-auto w-full">
+<h2 class="text-2xl font-bold mb-6 gt text-center" data-t="services">الخدمات</h2>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+<div class="sc glass rounded-xl p-4 text-center cursor-pointer" onclick="selS('time')"><i class="fas fa-stopwatch text-blue-400 text-2xl mb-2"></i><h3 class="text-sm font-bold" data-t="svc_time">زمن</h3><p class="text-blue-400 text-xs mt-1" data-t="price_10000">20,000 د.ج</p></div>
+<div class="sc glass rounded-xl p-4 text-center cursor-pointer" onclick="selS('cost')"><i class="fas fa-coins text-emerald-400 text-2xl mb-2"></i><h3 class="text-sm font-bold" data-t="svc_cost">تكلفة</h3><p class="text-emerald-400 text-xs mt-1" data-t="price_10000">20,000 د.ج</p></div>
+<div class="sc glass rounded-xl p-4 text-center cursor-pointer" onclick="selS('yield')"><i class="fas fa-chart-line text-amber-400 text-2xl mb-2"></i><h3 class="text-sm font-bold" data-t="svc_yield">مردود</h3><p class="text-amber-400 text-xs mt-1" data-t="price_10000">20,000 د.ج</p></div>
+<div class="sc glass rounded-xl p-4 text-center cursor-pointer border border-purple-500/20" onclick="selS('cost_time')"><i class="fas fa-balance-scale text-purple-400 text-2xl mb-2"></i><h3 class="text-sm font-bold" data-t="svc_cost_time">تكلفة+زمن</h3><p class="text-purple-400 text-xs mt-1" data-t="price_20000">35,000 د.ج</p></div>
+<div class="sc glass rounded-xl p-4 text-center cursor-pointer border border-rose-500/20" onclick="selS('cost_time_yield')"><i class="fas fa-gem text-rose-400 text-2xl mb-2"></i><h3 class="text-sm font-bold" data-t="svc_triple">ثلاثي</h3><p class="text-rose-400 text-xs mt-1" data-t="price_30000">52,500 د.ج</p></div>
+</div>
+<div class="mt-6 text-center"><button onclick="sec('hero')" class="bs px-5 py-2 rounded-full text-sm" data-t="back">العودة</button></div>
+</div>
+</section>
+
+<div id="auM" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+<div class="absolute inset-0 bg-slate-900/90" onclick="cM('auM')"></div>
+<div class="relative z-10 gd rounded-2xl p-6 max-w-sm w-full border border-amber-500/20">
+<button onclick="cM('auM')" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button>
+<h3 class="text-xl font-bold gt text-center mb-4" data-t="register">تسجيل</h3>
+<form onsubmit="doAuth(event)" class="space-y-3">
+<input type="email" id="emI" required data-pi="email" class="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white text-sm">
+<input type="password" id="pwI" required data-pi="password" class="w-full bg-white/5 border border-white/10 rounded-lg py-2 px-3 text-white text-sm">
+<button type="submit" class="w-full bp py-2 rounded-lg font-bold text-slate-900 text-sm" data-t="login">دخول</button>
+</form>
+</div>
+</div>
+
+<div id="svM" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+<div class="absolute inset-0 bg-slate-900/90" onclick="cM('svM')"></div>
+<div class="relative z-10 gd rounded-2xl p-5 max-w-5xl w-full border border-amber-500/20 h-[88vh] flex flex-col">
+<div class="flex justify-between mb-3 pb-2 border-b border-white/10">
+<div><h3 id="svT" class="text-lg font-bold gt"></h3><p id="svD" class="text-white/50 text-xs"></p></div>
+<button onclick="cM('svM')" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button>
+</div>
+<div class="flex-1 overflow-y-auto pr-1 space-y-4">
+<div class="bg-white/5 rounded-xl p-3 border border-white/10">
+<div class="grid grid-cols-3 gap-2">
+<div><label class="text-[10px] text-white/50" data-t="workers">عمال</label><input type="number" id="nw" min="1" value="4" onchange="gMI()" class="w-full bg-slate-800 border border-white/10 rounded px-2 py-1.5 text-white text-center text-xs"></div>
+<div><label class="text-[10px] text-white/50" data-t="tasks">مهام</label><input type="number" id="nt" min="1" value="2" onchange="gMI()" class="w-full bg-slate-800 border border-white/10 rounded px-2 py-1.5 text-white text-center text-xs"></div>
+<div><label class="text-[10px] text-white/50" data-t="shifts">ورديات</label><input type="number" id="ns" min="1" max="3" value="2" onchange="gMI()" class="w-full bg-slate-800 border border-white/10 rounded px-2 py-1.5 text-white text-center text-xs"></div>
+</div>
+</div>
+<div id="wS" class="hidden bg-white/5 rounded-xl p-3 border border-rose-500/20">
+<div class="space-y-2">
+<div><div class="flex justify-between text-[10px]"><span class="text-amber-400" data-t="svc_cost">التكلفة</span><span id="wcv">0.5</span></div><input type="range" id="wcs" min="0" max="100" value="50" oninput="uw()" class="ws" style="background:#f59e0b"></div>
+<div><div class="flex justify-between text-[10px]"><span class="text-blue-400" data-t="svc_time">الزمن</span><span id="wtv">0.5</span></div><input type="range" id="wts" min="0" max="100" value="50" oninput="uw()" class="ws" style="background:#3b82f6"></div>
+<div id="ywr" class="hidden"><div class="flex justify-between text-[10px]"><span class="text-emerald-400" data-t="svc_yield">المردود</span><span id="wyv">0</span></div><input type="range" id="wys" min="0" max="100" value="0" oninput="uw()" class="ws" style="background:#10b981"></div>
+</div>
+</div>
+<div class="bg-white/5 rounded-xl p-3 border border-white/10"><h4 class="text-emerald-400 text-xs font-bold mb-2" data-t="cost_matrix">مصفوفة التكلفة</h4><div id="cmC" class="overflow-x-auto"></div></div>
+<div id="tmS" class="hidden bg-white/5 rounded-xl p-3 border border-blue-500/20"><h4 class="text-blue-400 text-xs font-bold mb-2" data-t="time_matrix">مصفوفة الزمن</h4><div id="tmC" class="overflow-x-auto"></div></div>
+<div id="ymS" class="hidden bg-white/5 rounded-xl p-3 border border-emerald-500/20"><h4 class="text-emerald-400 text-xs font-bold mb-2" data-t="yield_matrix">مصفوفة المردود</h4><div id="ymC" class="overflow-x-auto"></div></div>
+</div>
+<div class="pt-2 mt-2 border-t border-white/10"><button id="anB" onclick="go()" class="w-full bp py-2.5 rounded-lg font-bold text-slate-900 text-sm"><i class="fas fa-play il"></i><span data-t="start_analysis">بدء التحليل</span></button></div>
+</div>
+</div>
+
+<div id="paM" class="fixed inset-0 z-[65] hidden items-center justify-center p-4">
+<div class="absolute inset-0 bg-slate-900/90" onclick="cM('paM')"></div>
+<div class="relative z-10 gd rounded-2xl p-5 max-w-md w-full border border-emerald-500/20 max-h-[85vh] flex flex-col">
+<span class="demo-badge" data-t="demo_mode">وضع تجريبي</span>
+<button onclick="cM('paM')" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button>
+<h3 class="text-lg font-bold gt text-center mb-3" data-t="payment">الدفع 🇩🇿</h3>
+<div class="bg-amber-500/10 rounded-lg p-3 mb-3 border border-amber-500/20 text-center"><p class="text-white/30 text-[9px]" data-t="service_label">الخدمة</p><p id="pN" class="text-amber-400 font-bold text-sm">—</p><p class="text-2xl font-extrabold mt-1"><span id="pA">0</span> <span class="text-sm text-white/30" data-t="dzd">د.ج</span></p></div>
+<p class="text-white/40 text-[10px] text-center mb-3" data-t="demo_notice">هذه بيئة تجريبية — لن يتم تحصيل أي مبلغ حقيقي ولا جمع بيانات حساب مصرفي.</p>
+<div class="grid grid-cols-2 gap-2 mb-3">
+<button onclick="spm('ccp')" class="pmb active p-2 rounded-lg border border-amber-500 bg-amber-500/10 text-center" data-m="ccp"><i class="fas fa-building text-blue-400"></i><p class="text-[9px] text-white/50">CCP</p></button>
+<button onclick="spm('baridimob')" class="pmb p-2 rounded-lg border border-white/10 text-center" data-m="baridimob"><i class="fas fa-mobile-alt text-emerald-400"></i><p class="text-[9px] text-white/50">BaridiMob</p></button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<div id="pm_ccp" class="pmd text-center py-6">
+<i class="fas fa-building text-blue-400 text-3xl mb-3"></i>
+<p class="text-white/60 text-xs" data-t="demo_redirect_ccp">في الوضع الحقيقي سيتم توجيهك لبوابة الدفع الرسمية لبريد الجزائر لإتمام العملية بأمان.</p>
+</div>
+<div id="pm_baridimob" class="pmd hidden text-center py-6">
+<i class="fas fa-mobile-alt text-emerald-400 text-3xl mb-3"></i>
+<p class="text-white/60 text-xs" data-t="demo_redirect_bm">في الوضع الحقيقي سيتم توجيهك لتطبيق BaridiMob الرسمي لإتمام العملية بأمان.</p>
+</div>
+</div>
+<button id="psb" onclick="dPay()" class="w-full bp py-2.5 rounded-lg font-bold text-slate-900 text-sm mt-3" data-t="confirm_pay_demo">متابعة (تجريبي)</button>
+</div>
+</div>
+
+<div id="prM" class="fixed inset-0 z-[60] hidden items-center justify-center p-4"><div class="absolute inset-0 bg-slate-900/90" onclick="cM('prM')"></div><div class="relative z-10 gd rounded-2xl p-5 max-w-xl w-full border border-amber-500/20"><button onclick="cM('prM')" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button><h3 class="text-xl font-bold gt text-center mb-4" data-t="prices">الأسعار 🇩🇿</h3><div class="grid grid-cols-3 gap-2 mb-3"><div class="text-center p-2 rounded-lg bg-blue-500/10 border border-blue-500/20"><p class="text-[10px] text-white/50" data-t="svc_time">زمن</p><p class="font-bold" data-t="price_10000">20,000 د.ج</p></div><div class="text-center p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20"><p class="text-[10px] text-white/50" data-t="svc_cost">تكلفة</p><p class="font-bold" data-t="price_10000">20,000 د.ج</p></div><div class="text-center p-2 rounded-lg bg-amber-500/10 border border-amber-500/20"><p class="text-[10px] text-white/50" data-t="svc_yield">مردود</p><p class="font-bold" data-t="price_10000">20,000 د.ج</p></div></div><div class="grid grid-cols-2 gap-2"><div class="text-center p-2 rounded-lg bg-purple-500/10 border border-purple-500/20"><p class="text-[10px] text-white/50" data-t="svc_cost_time">تكلفة+زمن</p><p class="font-bold" data-t="price_20000">35,000 د.ج</p></div><div class="text-center p-2 rounded-lg bg-rose-500/10 border border-rose-500/20"><p class="text-[10px] text-white/50" data-t="svc_triple">ثلاثي</p><p class="font-bold" data-t="price_30000">52,500 د.ج</p></div></div></div></div>
+
+<div id="coM" class="fixed inset-0 z-[65] hidden items-center justify-center p-4"><div class="absolute inset-0 bg-slate-900/90" onclick="cM('coM')"></div><div class="relative z-10 gd rounded-2xl p-5 max-w-lg w-full border border-blue-500/20 max-h-[85vh] flex flex-col"><button onclick="cM('coM')" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button><h3 class="text-lg font-bold gt text-center mb-3" data-t="comments">التعليقات</h3><form onsubmit="pCo(event)" class="space-y-2 mb-3"><input type="text" id="cn" required data-pi="name" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-xs"><textarea id="ct" required rows="2" maxlength="500" data-pi="your_comment" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-xs resize-none"></textarea><div class="flex gap-1" id="rs"></div><button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-blue-700 py-2 rounded-lg font-bold text-white text-xs" data-t="send">إرسال</button></form><div class="flex-1 overflow-y-auto" id="cl"></div></div></div>
+
+<div id="reM" class="fixed inset-0 z-[70] hidden items-center justify-center p-4"><div class="absolute inset-0 bg-slate-900/90" onclick="cM('reM')"></div><div class="relative z-10 gd rounded-2xl p-5 max-w-2xl w-full border border-emerald-500/20 max-h-[85vh] flex flex-col"><button onclick="cM('reM')" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button><h3 class="text-lg font-bold gt text-center mb-3" data-t="results">النتائج</h3><div class="flex-1 overflow-y-auto" id="rc"></div></div></div>
+
+<div id="alM" class="fixed inset-0 z-[70] hidden items-center justify-center p-4"><div class="absolute inset-0 bg-slate-900/90" onclick="cM('alM')"></div><div class="relative z-10 gd rounded-2xl p-5 max-w-xs w-full border border-emerald-500/20"><button onclick="cM('alM')" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button><h3 class="text-lg font-bold gt text-center mb-3" data-t="admin">المشرف</h3><form onsubmit="aLog(event)" class="space-y-2"><input type="email" id="ae" required value="admin@intajia.dz" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-xs"><input type="password" id="ap" required data-pi="password" class="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white text-xs"><button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 py-2 rounded-lg font-bold text-white text-xs" data-t="login">دخول</button></form></div></div>
+
+<div id="adM" class="fixed inset-0 z-[75] hidden items-center justify-center p-4"><div class="absolute inset-0 bg-slate-900/90"></div><div class="relative z-10 gd rounded-2xl p-5 max-w-4xl w-full border border-emerald-500/20 h-[88vh] flex flex-col"><div class="flex justify-between mb-3 pb-2 border-b border-white/10"><h3 class="text-lg font-bold gt" data-t="admin_dash">لوحة المشرف</h3><button onclick="cM('adM')" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button></div><div class="flex gap-1.5 mb-3"><button onclick="atb('st')" class="atb px-3 py-1.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 active" data-t="stats" data-tb="st">إحصائيات</button><button onclick="atb('pa')" class="atb px-3 py-1.5 rounded text-[10px] font-bold bg-white/5 text-white/40" data-t="payments" data-tb="pa">مدفوعات</button><button onclick="atb('co')" class="atb px-3 py-1.5 rounded text-[10px] font-bold bg-white/5 text-white/40" data-t="comments" data-tb="co">تعليقات</button><button onclick="atb('us')" class="atb px-3 py-1.5 rounded text-[10px] font-bold bg-white/5 text-white/40" data-t="users" data-tb="us">مستخدمون</button></div><div class="flex-1 overflow-y-auto" id="adc"></div></div></div>
+
+<div id="tst" class="toast fixed top-20 left-4 z-[80] gd border border-amber-500/30 rounded-xl p-3 max-w-xs shadow-2xl"><div class="flex items-start gap-2"><div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0"><i id="ti" class="fas fa-exclamation-triangle text-amber-400 text-sm"></i></div><div><p id="tm" class="text-white/80 text-xs"></p></div></div></div>
+
+<script>
+var U = '';
+var lg = 0, sT = null, txI = null, aT = null, cr = 5, isPd = false, currentLang = 'ar', currentUserEmail = '';
+var tstTimer = null;
+
+var translations = {
+  ar: { brand: "Opticrowt", register: "تسجيل", login: "دخول", services: "الخدمات", back: "العودة", hero_welcome: "مرحباً بكم في", hero_title: "تحسين الموارد وتعظيم الأداء", hero_desc: "نساعدك في إيجاد التوزيع الأمثل لضمان أعلى كفاءة وأفضل أداء للعمال والمهام.", svc_time: "زمن", svc_cost: "تكلفة", svc_yield: "مردود", svc_cost_time: "تكلفة+زمن", svc_triple: "ثلاثي", d_time: "تقليل الوقت", d_cost: "تقليل النفقات", d_yield: "رفع الإنتاجية", d_cost_time: "توازن التكلفة والزمن", d_triple: "شامل (تكلفة، زمن، مردود)", price_10000: "20,000 د.ج", price_20000: "35,000 د.ج", price_30000: "52,500 د.ج", dzd: "د.ج", workers: "عمال", tasks: "مهام", shifts: "ورديات", cost_matrix: "مصفوفة التكلفة", time_matrix: "مصفوفة الزمن", yield_matrix: "مصفوفة المردود", start_analysis: "بدء التحليل", payment: "الدفع 🇩🇿", service_label: "الخدمة", confirm_pay: "تأكيد الدفع", confirm_pay_demo: "متابعة (تجريبي)", demo_mode: "وضع تجريبي", demo_notice: "هذه بيئة تجريبية — لن يتم تحصيل أي مبلغ حقيقي ولا جمع بيانات حساب مصرفي.", demo_redirect_ccp: "في الوضع الحقيقي سيتم توجيهك لبوابة الدفع الرسمية لبريد الجزائر لإتمام العملية بأمان.", demo_redirect_bm: "في الوضع الحقيقي سيتم توجيهك لتطبيق BaridiMob الرسمي لإتمام العملية بأمان.", prices: "الأسعار 🇩🇿", comments: "التعليقات", send: "إرسال", results: "النتائج", admin: "المشرف", admin_dash: "لوحة المشرف", stats: "إحصائيات", payments: "مدفوعات", users: "مستخدمون", email: "البريد", password: "كلمة المرور", name: "الاسم", your_comment: "تعليقك...", toast_register: "سجل أولاً", toast_welcome: "مرحباً!", toast_pay_success: "تمت المتابعة (تجريبي)", toast_workers_err: "عدد العمال يجب أن يكون ≥ عدد المهام", toast_comment_sent: "سيظهر تعليقك بعد المراجعة", toast_comment_approved: "تمت الموافقة", toast_comment_deleted: "تم حذف التعليق", toast_wrong_creds: "بيانات خاطئة", toast_fill_fields: "املأ جميع الحقول", toast_admin_welcome: "مرحباً بك أيها المشرف", no_comments: "لا توجد تعليقات بعد", no_payments: "لا توجد مدفوعات مسجلة بعد", no_pending: "لا توجد تعليقات بانتظار المراجعة", result: "النتيجة", generation: "جيل", task_lbl: "المهمة", worker_lbl: "العامل", shift_lbl: "الوردية", distribution: "توزيع العمال على المهام", solution_lbl: "الحل", approve: "قبول", reject: "حذف", pending_review: "قيد المراجعة" },
+  en: { brand: "Opticrowt", register: "Register", login: "Login", services: "Services", back: "Back", hero_welcome: "Welcome to", hero_title: "Optimize Resources, Maximize Performance", hero_desc: "We help you find the best distribution to ensure the highest efficiency and optimal task allocation.", svc_time: "Time", svc_cost: "Cost", svc_yield: "Yield", svc_cost_time: "Cost+Time", svc_triple: "Triple", d_time: "Minimize Time", d_cost: "Minimize Cost", d_yield: "Maximize Yield", d_cost_time: "Balance Cost & Time", d_triple: "Comprehensive (Cost, Time, Yield)", price_10000: "20,000 DZD", price_20000: "35,000 DZD", price_30000: "52,500 DZD", dzd: "DZD", workers: "Workers", tasks: "Tasks", shifts: "Shifts", cost_matrix: "Cost Matrix", time_matrix: "Time Matrix", yield_matrix: "Yield Matrix", start_analysis: "Start Analysis", payment: "Payment 🇩🇿", service_label: "Service", confirm_pay: "Confirm Payment", confirm_pay_demo: "Continue (Demo)", demo_mode: "Demo mode", demo_notice: "This is a demo environment — no real charge and no bank data is collected.", demo_redirect_ccp: "In production you would be redirected to Algérie Poste's official payment gateway.", demo_redirect_bm: "In production you would be redirected to the official BaridiMob app.", prices: "Prices 🇩🇿", comments: "Comments", send: "Send", results: "Results", admin: "Admin", admin_dash: "Admin Dashboard", stats: "Statistics", payments: "Payments", users: "Users", email: "Email", password: "Password", name: "Name", your_comment: "Your comment...", toast_register: "Register first", toast_welcome: "Welcome!", toast_pay_success: "Continued (Demo)", toast_workers_err: "Workers must be ≥ Tasks", toast_comment_sent: "Your comment will appear after review", toast_comment_approved: "Approved", toast_comment_deleted: "Comment deleted", toast_wrong_creds: "Wrong credentials", toast_fill_fields: "Fill all fields", toast_admin_welcome: "Welcome, admin", no_comments: "No comments yet", no_payments: "No payments recorded yet", no_pending: "No pending comments", result: "Result", generation: "Generation", task_lbl: "Task", worker_lbl: "Worker", shift_lbl: "Shift", distribution: "Worker-Task Distribution", solution_lbl: "Solution", approve: "Approve", reject: "Delete", pending_review: "Pending review" },
+  fr: { brand: "Opticrowt", register: "S'inscrire", login: "Connexion", services: "Services", back: "Retour", hero_welcome: "Bienvenue à", hero_title: "Optimiser les Ressources, Maximiser la Performance", hero_desc: "Nous vous aidons à trouver la meilleure répartition pour garantir la plus haute efficacité et une allocation optimale des tâches.", svc_time: "Temps", svc_cost: "Coût", svc_yield: "Rendement", svc_cost_time: "Coût+Temps", svc_triple: "Triple", d_time: "Minimiser le Temps", d_cost: "Minimiser le Coût", d_yield: "Maximiser le Rendement", d_cost_time: "Équilibre Coût et Temps", d_triple: "Complet (Coût, Temps, Rendement)", price_10000: "20,000 DZD", price_20000: "35,000 DZD", price_30000: "52,500 DZD", dzd: "DZD", workers: "Ouvriers", tasks: "Tâches", shifts: "Postes", cost_matrix: "Matrice de Coût", time_matrix: "Matrice de Temps", yield_matrix: "Matrice de Rendement", start_analysis: "Analyse", payment: "Paiement 🇩🇿", service_label: "Service", confirm_pay: "Confirmer", confirm_pay_demo: "Continuer (Démo)", demo_mode: "Mode démo", demo_notice: "Ceci est un environnement de démonstration — aucun paiement réel ni donnée bancaire collectée.", demo_redirect_ccp: "En production, vous seriez redirigé vers la passerelle officielle d'Algérie Poste.", demo_redirect_bm: "En production, vous seriez redirigé vers l'application officielle BaridiMob.", prices: "Prix 🇩🇿", comments: "Commentaires", send: "Envoyer", results: "Résultats", admin: "Admin", admin_dash: "Tableau de bord", stats: "Statistiques", payments: "Paiements", users: "Utilisateurs", email: "Email", password: "Mot de passe", name: "Nom", your_comment: "Votre commentaire...", toast_register: "Inscrivez-vous d'abord", toast_welcome: "Bienvenue!", toast_pay_success: "Poursuite (démo)", toast_workers_err: "Ouvriers doivent être ≥ Tâches", toast_comment_sent: "Votre commentaire apparaîtra après validation", toast_comment_approved: "Approuvé", toast_comment_deleted: "Commentaire supprimé", toast_wrong_creds: "Identifiants incorrects", toast_fill_fields: "Remplissez tous les champs", toast_admin_welcome: "Bienvenue, admin", no_comments: "Pas de commentaires", no_payments: "Aucun paiement enregistré", no_pending: "Aucun commentaire en attente", result: "Résultat", generation: "Génération", task_lbl: "Tâche", worker_lbl: "Ouvrier", shift_lbl: "Poste", distribution: "Répartition Ouvriers-Tâches", solution_lbl: "Solution", approve: "Approuver", reject: "Supprimer", pending_review: "En attente" }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  var dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = dir;
+  document.getElementById('currentLangFlag').innerText = lang === 'ar' ? '🇩🇿' : lang === 'en' ? '🇬🇧' : '🇫🇷';
+  document.querySelectorAll('[data-t]').forEach(function(el) {
+    var key = el.getAttribute('data-t');
+    if (translations[lang][key]) el.innerText = translations[lang][key];
+  });
+  document.querySelectorAll('[data-pi]').forEach(function(el) {
+    var key = el.getAttribute('data-pi');
+    if (translations[lang][key]) el.placeholder = translations[lang][key];
+  });
+}
+
+function oM(id) { var m = document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); }
+function cM(id) { var m = document.getElementById(id); m.classList.add('hidden'); m.classList.remove('flex'); }
+function sec(i) {
+  document.getElementById('heroS').classList.add('hidden');
+  document.getElementById('svcS').classList.add('hidden');
+  if (i === 'hero') document.getElementById('heroS').classList.remove('hidden');
+  if (i === 'svc') document.getElementById('svcS').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+function svcClk() { if (!lg) { toast(translations[currentLang].toast_register); return; } sec('svc'); }
+
+function toast(msg, type) {
+  var t = document.getElementById('tst'), ic = document.getElementById('ti'), tm = document.getElementById('tm');
+  tm.textContent = msg || '';
+  ic.className = 'fas text-sm ' + (
+    type === 's' ? 'fa-check-circle text-emerald-400' :
+    type === 'e' ? 'fa-times-circle text-rose-400' :
+    type === 'w' ? 'fa-info-circle text-blue-400' :
+    'fa-exclamation-triangle text-amber-400'
+  );
+  t.classList.add('show');
+  if (tstTimer) clearTimeout(tstTimer);
+  tstTimer = setTimeout(function() { t.classList.remove('show'); }, 3500);
+}
+
+function doAuth(e) {
+  e.preventDefault();
+  var email = document.getElementById('emI').value.trim();
+  var password = document.getElementById('pwI').value;
+  if (!email || !password) { toast(translations[currentLang].toast_fill_fields, 'e'); return; }
+
+  fetch(U + '/api/auth/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email: email, password: password}) })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.success) { authSuccess(email); return; }
+    fetch(U + '/api/auth/register', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email: email, password: password}) })
+    .then(function(r2) { return r2.json(); })
+    .then(function(d2) {
+      if (d2.success) authSuccess(email);
+      else toast(d2.error || translations[currentLang].toast_wrong_creds, 'e');
+    })
+    .catch(function() { toast(translations[currentLang].toast_wrong_creds, 'e'); });
+  })
+  .catch(function() { toast(translations[currentLang].toast_wrong_creds, 'e'); });
+}
+function authSuccess(email) {
+  lg = 1; currentUserEmail = email;
+  document.getElementById('au').classList.add('hidden');
+  document.getElementById('ub').classList.remove('hidden');
+  document.getElementById('ub').classList.add('flex');
+  document.getElementById('ue').textContent = email;
+  cM('auM');
+  toast(translations[currentLang].toast_welcome, 's');
+}
+
+function uw() {
+  var wc = +document.getElementById('wcs').value, wt = +document.getElementById('wts').value, wy = +document.getElementById('wys').value;
+  var t = wc + wt + wy || 1;
+  document.getElementById('wcv').textContent = (wc / t).toFixed(2);
+  document.getElementById('wtv').textContent = (wt / t).toFixed(2);
+  document.getElementById('wyv').textContent = (wy / t).toFixed(2);
+}
+function selS(t) {
+  if (!lg) { oM('auM'); return; }
+  if (!isPd) { oPm(t); return; }
+  sT = t; oM('svM');
+  var T = translations[currentLang];
+  var c = { time: {t: T.svc_time, d: T.d_time}, cost: {t: T.svc_cost, d: T.d_cost}, yield: {t: T.svc_yield, d: T.d_yield}, cost_time: {t: T.svc_cost_time, d: T.d_cost_time}, cost_time_yield: {t: T.svc_triple, d: T.d_triple} }[t];
+  document.getElementById('svT').textContent = c.t;
+  document.getElementById('svD').textContent = c.d;
+  var ic = t === 'cost_time' || t === 'cost_time_yield', iy = t === 'cost_time_yield';
+  document.getElementById('tmS').classList.toggle('hidden', !ic);
+  document.getElementById('ymS').classList.toggle('hidden', !iy);
+  document.getElementById('wS').classList.toggle('hidden', !ic);
+  document.getElementById('ywr').classList.toggle('hidden', !iy);
+  if (t === 'cost_time') { document.getElementById('wcs').value = 50; document.getElementById('wts').value = 50; document.getElementById('wys').value = 0; }
+  else if (iy) { document.getElementById('wcs').value = 33; document.getElementById('wts').value = 33; document.getElementById('wys').value = 34; }
+  uw(); gMI();
+}
+function gMI() {
+  var w = Math.max(1, +document.getElementById('nw').value || 1), t = Math.max(1, +document.getElementById('nt').value || 1), s = Math.min(3, Math.max(1, +document.getElementById('ns').value || 1));
+  var d = sT === 'time' ? '30' : sT === 'yield' ? '50' : '10';
+  document.getElementById('cmC').innerHTML = bm(w, t, s, 'cost', d, '', '');
+  if (sT === 'cost_time' || sT === 'cost_time_yield') document.getElementById('tmC').innerHTML = bm(w, t, s, 'time', '30', 'ti', '');
+  if (sT === 'cost_time_yield') document.getElementById('ymC').innerHTML = bm(w, t, s, 'yield', '50', '', 'yi');
+}
+function bm(w, t, s, p, d, tc, yc) {
+  var h = '<table class="mx-auto border-collapse"><tr><th class="p-0.5"></th>';
+  for (var j = 0; j < t; j++) h += '<th colspan="' + s + '" class="p-0.5 text-amber-400 text-[8px]">T' + (j + 1) + '</th>';
+  h += '</tr><tr><th class="p-0.5"></th>';
+  for (var j = 0; j < t; j++) for (var k = 0; k < s; k++) h += '<th class="p-0.5 text-white/15 text-[7px]">S' + (k + 1) + '</th>';
+  h += '</tr>';
+  for (var i = 0; i < w; i++) {
+    h += '<tr><td class="p-0.5 text-white/30 text-[8px]">W' + (i + 1) + '</td>';
+    for (var j = 0; j < t; j++) for (var k = 0; k < s; k++) {
+      var c = 'mi'; if (tc) c += ' ' + tc; if (yc) c += ' ' + yc;
+      h += '<td class="p-0.5"><input type="number" class="' + c + '" id="' + p + '_' + i + '_' + j + '_' + k + '" value="' + d + '" min="0"></td>';
+    }
+    h += '</tr>';
+  }
+  h += '</table>';
+  return h;
+}
+function rm(p, w, t, s) {
+  var m = [];
+  for (var i = 0; i < w; i++) {
+    m[i] = [];
+    for (var j = 0; j < t; j++) {
+      m[i][j] = [];
+      for (var k = 0; k < s; k++) {
+        var e = document.getElementById(p + '_' + i + '_' + j + '_' + k);
+        m[i][j][k] = e ? (+e.value || 0) : 0;
+      }
+    }
+  }
+  return m;
+}
+
+function oPm(t) {
+  sT = t;
+  var T = translations[currentLang];
+  document.getElementById('pN').textContent = {time: T.svc_time, cost: T.svc_cost, yield: T.svc_yield, cost_time: T.svc_cost_time, cost_time_yield: T.svc_triple}[t] || t;
+  document.getElementById('pA').textContent = {time: 20000, cost: 20000, yield: 20000, cost_time: 35000, cost_time_yield: 52500}[t] || 20000;
+  spm('ccp');
+  oM('paM');
+}
+function spm(m) {
+  document.querySelectorAll('.pmd').forEach(function(e) { e.classList.add('hidden'); });
+  document.getElementById('pm_' + m).classList.remove('hidden');
+  document.querySelectorAll('.pmb').forEach(function(b) { b.classList.remove('active', 'border-amber-500', 'bg-amber-500/10'); b.classList.add('border-white/10'); });
+  var b = document.querySelector('.pmb[data-m="' + m + '"]');
+  b.classList.add('active', 'border-amber-500', 'bg-amber-500/10');
+  b.classList.remove('border-white/10');
+}
+function dPay() {
+  var m = document.querySelector('.pmb.active').dataset.m, T = translations[currentLang];
+  var btn = document.getElementById('psb'), o = btn.innerHTML;
+  btn.innerHTML = '<div class="ls mx-auto" style="width:20px;height:20px"></div>';
+  btn.disabled = true;
+
+  fetch(U + '/api/payment/prepare', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({serviceType: sT, email: currentUserEmail}) })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.success) {
+      txI = d.transactionId;
+      return fetch(U + '/api/payment/confirm', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({transactionId: txI, method: m}) });
+    }
+  })
+  .then(function(r) { return r ? r.json() : null; })
+  .finally(function() {
+    isPd = true;
+    cM('paM');
+    toast(T.toast_pay_success, 's');
+    btn.innerHTML = o; btn.disabled = false;
+    setTimeout(function() { selS(sT); }, 250);
+  });
+}
+
+function go() {
+  var w = +document.getElementById('nw').value, t = +document.getElementById('nt').value, s = +document.getElementById('ns').value, T = translations[currentLang];
+  if (w < t) { toast(T.toast_workers_err, 'e'); return; }
+  var cm = rm('cost', w, t, s), pl = { nWorkers: w, nTasks: t, nShifts: s, costMatrix: cm, serviceType: sT, transactionId: txI, email: currentUserEmail };
+  if (sT === 'cost_time' || sT === 'cost_time_yield') {
+    pl.timeMatrix = rm('time', w, t, s);
+    var a = +document.getElementById('wcs').value, b = +document.getElementById('wts').value, c = +document.getElementById('wys').value, d = a + b + c || 1;
+    pl.weightCost = a / d; pl.weightTime = b / d; pl.weightYield = c / d;
+  }
+  if (sT === 'cost_time_yield') pl.yieldMatrix = rm('yield', w, t, s);
+
+  var btn = document.getElementById('anB'), o = btn.innerHTML;
+  btn.innerHTML = '<div class="ls mx-auto" style="width:20px;height:20px"></div>';
+  btn.disabled = true;
+
+  fetch(U + '/api/optimize', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(pl) })
+  .then(function(r) { return r.json(); })
+  .then(function(d) { if (d.success) { cM('svM'); sR(d.data); } else toast(d.error, 'e'); })
+  .catch(function() { toast('خطأ في الاتصال بالخادم', 'e'); })
+  .finally(function() { btn.innerHTML = o; btn.disabled = false; });
+}
+
+function sR(d) {
+  oM('reM');
+  var T = translations[currentLang];
+  var isPareto = Array.isArray(d);
+  var solutions = isPareto ? d : [d];
+  var h = '';
+
+  solutions.forEach(function(sol, idx) {
+    h += '<div class="bg-white/5 rounded-xl p-3 border border-white/10 mb-3">';
+    if (isPareto) {
+      h += '<h4 class="text-amber-400 text-xs font-bold mb-2">' + T.solution_lbl + ' #' + (idx + 1) + '</h4>';
+      h += '<div class="flex flex-wrap gap-2 mb-2 text-[10px]">';
+      if (sol.objectives) {
+        Object.keys(sol.objectives).forEach(function(k) {
+          var lbl = k === 'cost' ? T.svc_cost : k === 'time' ? T.svc_time : T.svc_yield;
+          h += '<span class="px-2 py-1 rounded bg-white/10">' + lbl + ': <b>' + sol.objectives[k] + '</b></span>';
+        });
+      }
+      h += '</div>';
+    } else {
+      h += '<div class="grid grid-cols-2 gap-2 mb-2 text-[10px]">';
+      h += '<span class="px-2 py-1 rounded bg-amber-500/10 text-amber-400">' + T.svc_cost + ': <b>' + (sol.actualCost != null ? sol.actualCost.toFixed ? sol.actualCost.toFixed(2) : sol.actualCost : '-') + '</b></span>';
+      if (sol.actualTime != null) h += '<span class="px-2 py-1 rounded bg-blue-500/10 text-blue-400">' + T.svc_time + ': <b>' + sol.actualTime + '</b></span>';
+      if (sol.actualYield != null) h += '<span class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400">' + T.svc_yield + ': <b>' + sol.actualYield + '</b></span>';
+      h += '</div>';
+      if (sol.foundAtGeneration) h += '<p class="text-white/30 text-[9px] mb-2">' + T.generation + ' ' + sol.foundAtGeneration + ' / ' + (sol.totalGenerations || '-') + '</p>';
+    }
+
+    h += '<p class="text-white/50 text-[10px] font-bold mb-1">' + T.distribution + '</p>';
+    (sol.shifts || []).forEach(function(sh) {
+      h += '<div class="mb-1"><span class="text-purple-400 text-[10px] font-bold">' + T.shift_lbl + ' ' + sh.shift + ':</span> ';
+      h += (sh.assignments || []).map(function(a) {
+        var parts = [T.task_lbl + ' ' + a.task + ' → ' + T.worker_lbl + ' ' + a.worker];
+        if (a.cost != null) parts.push(T.svc_cost + '=' + a.cost);
+        if (a.time != null) parts.push(T.svc_time + '=' + a.time);
+        if (a.yield != null) parts.push(T.svc_yield + '=' + a.yield);
+        return '<span class="inline-block bg-white/10 rounded px-1.5 py-0.5 text-[9px] ml-1">' + parts.join(', ') + '</span>';
+      }).join(' ');
+      h += '</div>';
+    });
+    h += '</div>';
+  });
+
+  document.getElementById('rc').innerHTML = h || '<p class="text-white/40 text-center text-xs py-6">—</p>';
+}
+
+function oCom() { oM('coM'); loadComments(); }
+function setRating(v) {
+  cr = v;
+  document.querySelectorAll('#rs .star').forEach(function(s) {
+    s.classList.toggle('on', +s.dataset.v <= v);
+  });
+}
+function initStars() {
+  var rs = document.getElementById('rs');
+  rs.innerHTML = '';
+  for (var i = 1; i <= 5; i++) {
+    var s = document.createElement('i');
+    s.className = 'fas fa-star star' + (i <= cr ? ' on' : '');
+    s.dataset.v = i;
+    s.onclick = function() { setRating(+this.dataset.v); };
+    rs.appendChild(s);
+  }
+}
+function pCo(e) {
+  e.preventDefault();
+  var name = document.getElementById('cn').value.trim();
+  var text = document.getElementById('ct').value.trim();
+  var T = translations[currentLang];
+  if (!name || !text) { toast(T.toast_fill_fields, 'e'); return; }
+  fetch(U + '/api/comments', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name: name, text: text, email: currentUserEmail, rating: cr}) })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.success) {
+      toast(T.toast_comment_sent, 's');
+      document.getElementById('cn').value = ''; document.getElementById('ct').value = ''; cr = 5; initStars();
+      loadComments();
+    } else toast(d.error || 'Error', 'e');
+  })
+  .catch(function() { toast('خطأ في الاتصال', 'e'); });
+}
+function loadComments() {
+  var T = translations[currentLang];
+  fetch(U + '/api/comments')
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    var list = (d && d.comments) || [];
+    var h = '';
+    if (!list.length) { document.getElementById('cl').innerHTML = '<p class="text-white/30 text-center text-xs py-4">' + T.no_comments + '</p>'; return; }
+    list.forEach(function(c) {
+      h += '<div class="bg-white/5 rounded-lg p-2.5 mb-2 border border-white/10">';
+      h += '<div class="flex justify-between items-center mb-1"><span class="text-xs font-bold text-amber-400">' + esc(c.name) + '</span>';
+      h += '<span class="text-[9px] text-white/30">' + '★'.repeat(c.rating || 0) + '</span></div>';
+      h += '<p class="text-white/70 text-xs">' + esc(c.text) + '</p></div>';
+    });
+    document.getElementById('cl').innerHTML = h;
+  })
+  .catch(function() { document.getElementById('cl').innerHTML = '<p class="text-white/30 text-center text-xs py-4">' + T.no_comments + '</p>'; });
+}
+function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+function aLog(e) {
+  e.preventDefault();
+  var email = document.getElementById('ae').value.trim();
+  var password = document.getElementById('ap').value;
+  var T = translations[currentLang];
+  fetch(U + '/api/admin/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email: email, password: password}) })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.success) {
+      aT = d.token; currentUserEmail = email;
+      cM('alM'); oM('adM');
+      toast(T.toast_admin_welcome, 's');
+      atb('st');
+    } else toast(d.error || T.toast_wrong_creds, 'e');
+  })
+  .catch(function() { toast(T.toast_wrong_creds, 'e'); });
+}
+function atb(tab) {
+  document.querySelectorAll('.atb').forEach(function(b) {
+    var on = b.dataset.tb === tab;
+    b.classList.toggle('active', on);
+    b.classList.toggle('bg-emerald-500/20', on);
+    b.classList.toggle('text-emerald-400', on);
+    b.classList.toggle('border', on);
+    b.classList.toggle('border-emerald-500/20', on);
+    b.classList.toggle('bg-white/5', !on);
+    b.classList.toggle('text-white/40', !on);
+  });
+  var T = translations[currentLang];
+  var box = document.getElementById('adc');
+  box.innerHTML = '<div class="ls mx-auto" style="width:28px;height:28px"></div>';
+
+  if (tab === 'st') {
+    fetch(U + '/api/admin/stats', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ae: currentUserEmail, at: aT}) })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (!d.success) { box.innerHTML = '<p class="text-rose-400 text-xs text-center py-6">' + (d.error || '—') + '</p>'; return; }
+      var s = d.stats;
+      var h = '<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">';
+      h += statCard(T.users, s.users, 'text-blue-400');
+      h += statCard(T.payments, s.payments + ' (' + s.confirmed + ')', 'text-emerald-400');
+      h += statCard(T.svc_cost + ' (' + T.dzd + ')', s.revenue, 'text-amber-400');
+      h += statCard(T.comments, s.comments + ' (' + s.pending + ' ' + T.pending_review + ')', 'text-purple-400');
+      h += '</div>';
+      document.getElementById('adc').innerHTML = h;
+    }).catch(function() { box.innerHTML = '<p class="text-white/30 text-xs text-center py-6">—</p>'; });
+  } else if (tab === 'pa') {
+    box.innerHTML = '<p class="text-white/30 text-xs text-center py-6">' + T.no_payments + '</p>';
+  } else if (tab === 'co') {
+    fetch(U + '/api/admin/comments', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ae: currentUserEmail, at: aT}) })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var list = (d && d.comments) || [];
+      if (!list.length) { box.innerHTML = '<p class="text-white/30 text-xs text-center py-6">' + T.no_comments + '</p>'; return; }
+      var h = '';
+      list.forEach(function(c) {
+        var pending = c.s === 'pending';
+        h += '<div class="bg-white/5 rounded-lg p-2.5 mb-2 border ' + (pending ? 'border-amber-500/30' : 'border-white/10') + ' flex justify-between items-start gap-2">';
+        h += '<div class="flex-1"><div class="flex items-center gap-2"><span class="text-xs font-bold text-amber-400">' + esc(c.name) + '</span>';
+        if (pending) h += '<span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">' + T.pending_review + '</span>';
+        h += '</div><p class="text-white/60 text-xs mt-0.5">' + esc(c.text) + '</p></div>';
+        h += '<div class="flex flex-col gap-1 flex-shrink-0">';
+        if (pending) h += '<button onclick="modComment(\'' + c.id + '\',\'approve\')" class="text-[9px] px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 whitespace-nowrap">' + T.approve + '</button>';
+        h += '<button onclick="modComment(\'' + c.id + '\',\'reject\')" class="text-[9px] px-2 py-1 rounded bg-rose-500/20 text-rose-400 whitespace-nowrap">' + T.reject + '</button>';
+        h += '</div></div>';
+      });
+      box.innerHTML = h;
+    }).catch(function() { box.innerHTML = '<p class="text-white/30 text-xs text-center py-6">' + T.no_comments + '</p>'; });
+  } else if (tab === 'us') {
+    box.innerHTML = '<p class="text-white/30 text-xs text-center py-6">—</p>';
+  }
+}
+function modComment(id, action) {
+  var T = translations[currentLang];
+  fetch(U + '/api/admin/comments/moderate', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ae: currentUserEmail, at: aT, id: id, action: action}) })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.success) { toast(action === 'approve' ? T.toast_comment_approved : T.toast_comment_deleted, 's'); atb('co'); }
+    else toast(d.error || 'Error', 'e');
+  })
+  .catch(function() { toast(T.toast_wrong_creds, 'e'); });
+}
+function statCard(label, value, color) {
+  return '<div class="bg-white/5 rounded-lg p-3 text-center border border-white/10"><p class="text-white/40 text-[10px] mb-1">' + label + '</p><p class="font-bold text-lg ' + color + '">' + value + '</p></div>';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initStars();
+});
+</script>
+</body>
+</html>
